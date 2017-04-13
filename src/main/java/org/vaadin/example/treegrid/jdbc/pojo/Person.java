@@ -1,76 +1,49 @@
 package org.vaadin.example.treegrid.jdbc.pojo;
 
-public class Person {
-    private long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String gender ;
-    private String ipAddress ;
-    private String companyName;
-    private String department;
+public class Person extends NamedItem {
 
-    public long getId() {
-        return id;
-    }
+    private final long departmentId;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final String gender;
 
-    public void setId(long id) {
-        this.id = id;
+    public Person(long id,long departmentId, String firstName, String lastName, String email, String gender) {
+        super(id);
+        this.departmentId = departmentId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
     public String getLastName() {
         return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public long getDepartmentId() {
+        return departmentId;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
+    @Override
+    public String getName() {
+        return getFirstName() + " " + getLastName();
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
+    @Override
+    public <RESULT> RESULT visit(NamedItemVisitor<RESULT> visitor) {
+        return visitor.accept(this);
     }
 }

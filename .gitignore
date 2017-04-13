@@ -1,5 +1,6 @@
 .idea
 *.iml
+/db
 ### Eclipse template
 
 .metadata

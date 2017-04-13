@@ -14,7 +14,7 @@
     </prerequisites>
 
     <properties>
-        <vaadin.version>8.1.0.alpha4</vaadin.version>
+        <vaadin.version>8.1.0.alpha5</vaadin.version>
         <vaadin.plugin.version>8.1.0.alpha4</vaadin.plugin.version>
         <jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,10 +56,6 @@
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-push</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
             <artifactId>vaadin-client-compiled</artifactId>
         </dependency>
         <dependency>
@@ -72,9 +68,9 @@
             <version>2.1.1</version>
         </dependency>
         <dependency>
-            <groupId>hsqldb</groupId>
+            <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
-            <version>1.8.0.10</version>
+            <version>2.3.4</version>
         </dependency>    </dependencies>
 
     <build>
@@ -96,11 +92,11 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>update-theme</goal>
-                            <goal>update-widgetset</goal>
-                            <goal>compile</goal>
+                            <!--<goal>update-theme</goal>-->
+                            <!--<goal>update-widgetset</goal>-->
+                            <!--<goal>compile</goal>-->
                             <!-- Comment out compile-theme goal to use on-the-fly theme compilation -->
-                            <goal>compile-theme</goal>
+                            <!--<goal>compile-theme</goal>-->
                         </goals>
                     </execution>
                 </executions>
