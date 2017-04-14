@@ -1,5 +1,8 @@
 package org.vaadin.example.treegrid.jdbc.pojo;
 
+/**
+* POJO for Person entity
+ */
 public class Person extends NamedItem {
 
     private final long departmentId;
@@ -42,8 +45,4 @@ public class Person extends NamedItem {
         return getFirstName() + " " + getLastName();
     }
 
-    @Override
-    public <RESULT> RESULT visit(NamedItemVisitor<RESULT> visitor) {
-        return visitor.accept(this);
-    }
 }

@@ -1,7 +1,7 @@
 package org.vaadin.example.treegrid.jdbc.pojo;
 
 /**
- * Created by elmot on 4/13/2017.
+ * Base class for all the entities
  */
 public abstract class  NamedItem {
     private final long id;
@@ -31,5 +31,4 @@ public abstract class  NamedItem {
         return (int) (id ^ (id >>> 32));
     }
 
-    public abstract <RESULT> RESULT visit(NamedItemVisitor<RESULT> visitor);
 }

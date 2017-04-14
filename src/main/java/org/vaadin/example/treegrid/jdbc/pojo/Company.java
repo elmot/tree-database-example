@@ -1,7 +1,7 @@
 package org.vaadin.example.treegrid.jdbc.pojo;
 
 /**
- * Created by elmot on 4/11/2017.
+ * POJO for Company entity
  */
 public class Company extends NamedItem {
     private final String name;
@@ -14,11 +14,6 @@ public class Company extends NamedItem {
     @Override
     public String getName() {
         return name;
-    }
-
-    @Override
-    public <RESULT> RESULT visit(NamedItemVisitor<RESULT> visitor) {
-        return visitor.accept(this);
     }
 
 }

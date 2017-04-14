@@ -1,30 +1,22 @@
 package org.vaadin.example.treegrid.jdbc;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.ValueProvider;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import org.vaadin.example.treegrid.jdbc.pojo.Company;
-import org.vaadin.example.treegrid.jdbc.pojo.Department;
 import org.vaadin.example.treegrid.jdbc.pojo.NamedItem;
-import org.vaadin.example.treegrid.jdbc.pojo.NamedItemVisitor;
 import org.vaadin.example.treegrid.jdbc.pojo.Person;
 
+import javax.servlet.annotation.WebServlet;
 import java.util.function.Function;
 
 /**
- * This UI is the application entry point. A UI may either represent a browser window
- * (or tab) or some part of a html page where a Vaadin application is embedded.
- * <p>
- * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be
- * overridden to add component to the user interface and initialize non-component functionality.
+ * This UI is the application entry point.
  */
+@SuppressWarnings("unused")
 public class TreeUI extends UI {
 
     @Override
@@ -51,24 +43,13 @@ public class TreeUI extends UI {
     }
 
     private static ValueProvider<NamedItem, String> ofPerson(Function<Person, String> personExtractor) {
-        return (NamedItem item) -> item.visit(new NamedItemVisitor<String>() {
-
-            @Override
-            public String accept(Person person) {
-                return personExtractor.apply(person);
+        return (NamedItem item) -> {
+            if (item instanceof Person) {
+                return personExtractor.apply((Person) item);
             }
-
-            @Override
-            public String accept(Company company) {
+            else {
                 return "--";
             }
-
-            @Override
-            public String accept(Department department) {
-                return "--";
-            }
-        });
-
+        };
     }
-
 }

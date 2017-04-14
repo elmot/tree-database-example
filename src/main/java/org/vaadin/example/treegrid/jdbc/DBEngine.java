@@ -1,7 +1,6 @@
 package org.vaadin.example.treegrid.jdbc;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hsqldb.jdbcDriver;
 
 import javax.sql.DataSource;
 import java.io.BufferedReader;
@@ -14,8 +13,11 @@ import java.sql.Statement;
 import java.util.stream.Stream;
 
 /**
- * Created by elmot on 4/11/2017.
+ * Database support class.
+ * HSQLDB in-memory database is used. The data is uploaded automatically when
+ * the database is accessed for the very first time.
  */
+@SuppressWarnings("WeakerAccess")
 public class DBEngine {
     private static BasicDataSource dataSource;
 
@@ -29,12 +31,11 @@ public class DBEngine {
                 // in case of race conditions
                 if (dataSource == null) {
                     dataSource = new BasicDataSource();
-//                    dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-                    dataSource.setUrl("jdbc:hsqldb:mem:tododb");
+                    dataSource.setUrl("jdbc:hsqldb:mem:peopledb");
                     dataSource.setUsername("SA");
                     dataSource.setPassword("");
                     try (Connection connection = dataSource.getConnection()) {
-                        setupDatabase(connection);
+                        uploadData(connection);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
@@ -44,7 +45,7 @@ public class DBEngine {
         return dataSource;
     }
 
-    private static void setupDatabase(Connection connection) {
+    private static void uploadData(Connection connection) {
         Stream.of("db_ddl.sql", "db_dml.sql").forEach(scriptName ->
                 {
                     try (Statement statement = connection.createStatement();
