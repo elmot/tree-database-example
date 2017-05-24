@@ -2,15 +2,27 @@ package org.vaadin.example.treegrid.jdbc;
 
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.ValueProvider;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.IconGenerator;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import org.vaadin.example.treegrid.jdbc.pojo.Company;
+import org.vaadin.example.treegrid.jdbc.pojo.Department;
 import org.vaadin.example.treegrid.jdbc.pojo.NamedItem;
 import org.vaadin.example.treegrid.jdbc.pojo.Person;
 
 import javax.servlet.annotation.WebServlet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 /**
@@ -21,7 +33,22 @@ public class TreeUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
+        final HorizontalLayout layout = new HorizontalLayout();
+        layout.setMargin(true);
+        layout.setSizeFull();
+        TreeGrid<NamedItem> treeGrid = setupTreeGrid();
+        treeGrid.setHeight("50%");
+
+        Tree<NamedItem> tree = setupTree();
+        Panel treePanel = new Panel(tree);
+        treePanel.setHeight("50%");
+
+        layout.addComponentsAndExpand(treeGrid, treePanel);
+
+        setContent(layout);
+    }
+
+    private TreeGrid<NamedItem> setupTreeGrid() {
         TreeGrid<NamedItem> treeGrid = new TreeGrid<>();
 
         treeGrid.addColumn(NamedItem::getName).setId("name").setCaption("Name");
@@ -32,9 +59,15 @@ public class TreeUI extends UI {
         treeGrid.addColumn(ofPerson(Person::getEmail)).setCaption("e-mail");
         treeGrid.addColumn(ofPerson(Person::getGender)).setCaption("Gender");
         treeGrid.setDataProvider(new PeopleData());
+        return treeGrid;
+    }
 
-        layout.addComponentsAndExpand(treeGrid);
-        setContent(layout);
+    private Tree<NamedItem> setupTree() {
+        Tree<NamedItem> tree = new Tree<>();
+        tree.setDataProvider(new PeopleData());
+        tree.setItemCaptionGenerator(NamedItem::getName);
+        tree.setItemIconGenerator(new PeopleIconGenerator());
+        return tree;
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
@@ -46,10 +79,31 @@ public class TreeUI extends UI {
         return (NamedItem item) -> {
             if (item instanceof Person) {
                 return personExtractor.apply((Person) item);
-            }
-            else {
+            } else {
                 return "--";
             }
         };
+    }
+
+    private static class PeopleIconGenerator implements IconGenerator<NamedItem> {
+        @Override
+        public Resource apply(NamedItem p) {
+            if (p instanceof Person) {
+                String gender = Objects.toString(((Person) p).getGender(), "");
+                switch (gender.toUpperCase()) {
+                    case "MALE":
+                        return VaadinIcons.MALE;
+                    case "FEMALE":
+                        return VaadinIcons.FEMALE;
+                    default:
+                        return VaadinIcons.USER;
+                }
+            } else if (p instanceof Department) {
+                return VaadinIcons.GROUP;
+            }
+            else{
+                return VaadinIcons.OFFICE;
+            }
+        }
     }
 }
