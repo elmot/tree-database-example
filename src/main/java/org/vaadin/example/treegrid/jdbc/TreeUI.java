@@ -12,17 +12,12 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeGrid;
 import com.vaadin.ui.UI;
-import org.vaadin.example.treegrid.jdbc.pojo.Company;
 import org.vaadin.example.treegrid.jdbc.pojo.Department;
 import org.vaadin.example.treegrid.jdbc.pojo.NamedItem;
 import org.vaadin.example.treegrid.jdbc.pojo.Person;
 
 import javax.servlet.annotation.WebServlet;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
 import java.util.function.Function;
 
 /**
@@ -44,6 +39,12 @@ public class TreeUI extends UI {
         treePanel.setHeight("50%");
 
         layout.addComponentsAndExpand(treeGrid, treePanel);
+
+        treeGrid.addExpandListener(expandEvent -> tree.expand(expandEvent.getExpandedItem()));
+        treeGrid.addCollapseListener(expandEvent -> tree.collapse(expandEvent.getCollapsedItem()));
+
+        tree.addExpandListener(expandEvent -> treeGrid.expand(expandEvent.getExpandedItem()));
+        tree.addCollapseListener(expandEvent -> treeGrid.collapse(expandEvent.getCollapsedItem()));
 
         setContent(layout);
     }
