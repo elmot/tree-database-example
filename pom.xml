@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ogr.vaadin</groupId>
+    <groupId>org.vaadin</groupId>
     <artifactId>tree-database-example</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -14,7 +14,7 @@
     </prerequisites>
 
     <properties>
-        <vaadin.version>8.1-SNAPSHOT</vaadin.version>
+        <vaadin.version>8.8.5</vaadin.version>
         <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
